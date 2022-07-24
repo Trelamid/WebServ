@@ -1,2 +1,2 @@
 all:
-	@g++ main.cpp TCPlistener.cpp Config.cpp -o server
+	@g++ -g main.cpp TCPlistener.cpp Config.cpp Request.cpp -o server

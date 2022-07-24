@@ -1,7 +1,7 @@
 //
 // Created by Prime_Games_2 on 19.07.2022.
 //
-
+#include "Request.h"
 #include <iostream>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -19,6 +19,7 @@
 #include <sstream>
 #include <map>
 #include <vector>
+#include <sys/select.h>
 //#include <sys/event.h>
 
 
@@ -26,25 +27,31 @@
 #define SERVERSCRIPTS_TCPLISTENER_H
 #define MAX_EVENTS 10
 
+class Request;
+
 using namespace std;
 
 class TCPlistener {
 private:
 	int					_port;
 	int					_socketFd;
-	int					_epfd;
+//	int					_epfd;
+//	fd_set				_fdMaster;
+	fd_set				*__fdRead;
+	fd_set				*__fdWrite;
+	int					_numSelect;
 	struct sockaddr_in	servAddr;
 	struct epoll_event ev, events[MAX_EVENTS];
-	vector<int>			_connections;
-	bool Contains(int confd);
+	vector<Request>		_connections;
+	Request *Contains(int confd);
 	void deleteFromYebannyiVector(int confd);
 public:
-	TCPlistener(int port, int epfd);
+	TCPlistener(int port, fd_set *fdRead, fd_set *fdWrite);
 	TCPlistener();
 	~TCPlistener();
-	void Init(int port, int epfd);
-	void Socket();
-	void Listen();
+	void Init(int port, fd_set *fdRead, fd_set *fdWrite);
+	int Socket(fd_set &fdRead);
+	void Listen(fd_set &_fdRead, fd_set &_fdWrite,fd_set &fdRead, fd_set &fdWrite, int &num);
 };
 
 

@@ -24,7 +24,7 @@ int main(int ac, char** av)
 	for (int i = 0; i < config.GetSize(); i++)
 	{
 		cout << config.GetPorts(i);
-		listeners[i].Init(config.GetPorts(i), &fdRead, &fdWrite);
+		listeners[i].Init(config.GetPorts(i));
 		int rez = listeners[i].Socket(fdRead);
 		_numSelect = rez + 1;
 		FD_SET(rez, &fdRead);
@@ -35,7 +35,6 @@ int main(int ac, char** av)
 		fd_set FdWrite = fdWrite;
 		if(select(_numSelect, &FdRead, &FdWrite, NULL, NULL) < 0)
 			continue;
-//		cout << "aa";
 		for (int i = 0; i < config.GetSize(); i++)
 		{
 			listeners[i].Listen(fdRead, fdWrite, FdRead, FdWrite, _numSelect);

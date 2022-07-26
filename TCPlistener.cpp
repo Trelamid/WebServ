@@ -9,203 +9,131 @@
 
 TCPlistener::TCPlistener() {}
 
-TCPlistener::TCPlistener(int port = 0, fd_set *fdRead = NULL, fd_set *fdWrite = NULL) : _port(port), _socketFd(0), __fdRead(fdRead), __fdWrite(fdWrite)
-{
-//	_port = port;
-}
+TCPlistener::TCPlistener(int port = 0) : __port(port), __socketFd(0) {}
 
 TCPlistener::~TCPlistener()
 {
 
 }
 
-void TCPlistener::Init(int port, fd_set *fdRead, fd_set *fdWrite)
+void TCPlistener::Init(int port)
 {
-	_port = port;
-	__fdRead = fdRead;
-	__fdWrite = fdWrite;
-//	_epfd = epfd;
+	__port = port;
 }
 
 int  TCPlistener::Socket(fd_set &fdRead)
 {
-	if((_socketFd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+	if((__socketFd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 	{
-		cout << "socket error\n";
+		perror("socket");
 		exit(EXIT_FAILURE);
 	}
-	servAddr.sin_family = AF_INET;
-	servAddr.sin_addr.s_addr = inet_addr("0.0.0.0");
-	servAddr.sin_port = htons(_port);
+	__servAddr.sin_family = AF_INET;
+	__servAddr.sin_addr.s_addr = inet_addr("0.0.0.0");
+	__servAddr.sin_port = htons(__port);
 
-	cout << _socketFd;
-	if(bind(_socketFd, (struct sockaddr*)&servAddr, sizeof(servAddr)) < 0)
+	if(bind(__socketFd, (struct sockaddr*)&__servAddr, sizeof(__servAddr)) < 0)
 	{
 		perror("bind");
-//		cout << "bind error\n";
 		exit(EXIT_FAILURE);
 	}
-	if(listen(_socketFd, 32))
+	if(listen(__socketFd, 32))
 	{
-		cout << "listen error\n";
+		perror("listen");
 		exit(EXIT_FAILURE);
 	}
 
 	int opt;
-	setsockopt(_socketFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
+	setsockopt(__socketFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 
-//	FD_SET(_socketFd, &fdRead);
 	cout << "Socket OK\n";
-	return _socketFd;
-}
-
-Request *TCPlistener::Contains(int conFd) //find too
-{
-	for (int i = 0; i < _connections.size(); i++)
-	{
-		if(conFd == _connections[i].getFd())
-			return &_connections[i];
-	}
-	return NULL;
-}
-
-void TCPlistener::deleteFromYebannyiVector(int conFd)
-{
-	for (int i = 0; i < _connections.size(); i++)
-	{
-		if(conFd == _connections[i].getFd())
-		{
-			_connections.erase(_connections.begin()+i);
-			return;
-		}
-	}
+	return __socketFd;
 }
 
 void TCPlistener::Listen(fd_set &_fdRead, fd_set &_fdWrite,fd_set &fdRead, fd_set &fdWrite, int &num)
 {
-//	fd_set fdRead = _fdRead;
-//	fd_set fdWrite = _fdWrite;
-//	if(select(_numSelect, &fdRead, &fdWrite, NULL, NULL) < 0)
-//		return;
 	for (int i = 0; i <= num; i++)
 	{
 		Request *con;
-//		cout << "0\n";
 		if(FD_ISSET(i, &fdRead) > 0)
 		{
-//			cout << i<<"\n";
-			if(i == _socketFd)
+			if(i == __socketFd)
 			{
-				cout << "2\n";
-				socklen_t size = sizeof(servAddr);
-				int conFd = accept(_socketFd, (struct sockaddr*)&servAddr, &size);
+				socklen_t size = sizeof(__servAddr);
+				int conFd = accept(__socketFd, (struct sockaddr*)&__servAddr, &size);
 				if(conFd < 0)
 				{
 					perror("conFd");
 					exit(1);
 				}
-				FD_SET(conFd, &_fdRead);
-				if(conFd > num)
+				if(conFd >= num)
 					num = conFd + 1;
 				fcntl(conFd, F_SETFL, O_NONBLOCK);
-				_connections.push_back(Request(conFd));
-//				cout << "2_2\n";
+				FD_SET(conFd, &_fdRead);
+				__connections.insert(make_pair(conFd, Request(conFd)));
 			}
-			else if(con = Contains(i))
+			else if(__connections.end() != __connections.find(i))
 			{
-				cout << "3\n";
-				char buf[10000];
-				int red = recv(i, buf, 2048, 0);
-				string s = buf;
-				con->setRequest(s);
-
-				FD_CLR(i, &_fdRead);
-
-				if(red > 0)
+				con = &(__connections.find(i)->second);
+				char buf[1024];
+				int red = recv(i, buf, 1024, 0);
+				if(red == 0 && con->getRequest() == "")
+				{
+					FD_CLR(i, &_fdRead);
+					return;
+				}
+				else if(con->getRequest() == "" && con->PreParsing(buf) != "OK")
+				{
+					FD_CLR(i, &_fdRead);
 					FD_SET(i, &_fdWrite);
+					return;
+				}
+				else if(red == 0)
+				{
+					FD_CLR(i, &_fdRead);
+					FD_SET(i, &_fdWrite);
+					return;
+				}
 
+				if(red < 1024)
+				{
+					string s = buf;
+					con->setRequest(s);
+					FD_CLR(i, &_fdRead);
+					FD_SET(i, &_fdWrite);
+				}
+				else if(red == 1024)
+				{
+					string s = buf;
+					con->setRequest(s);
+				}
 				return;
 			}
 		}
-		if(FD_ISSET(i, &fdWrite) > 0 && (con = Contains(i)))
+		if(FD_ISSET(i, &fdWrite) > 0 && (__connections.end() != __connections.find(i)))
 		{
-			con->Parse(_port);
-			string str2 = con->getResponse();
-			send(i, str2.data(), str2.size(), 0);
-			FD_CLR(i, &_fdWrite);
-			close(i);
-			deleteFromYebannyiVector(i);
+			con = &(__connections.find(i)->second);
+			if(con->getResponse() == "")
+			{
+				con->Parse(__port);
+			}
+			else
+			{
+				string str2 = con->getResponse();
+				if(str2.size() > 1024)
+				{
+					send(i, str2.data(), 1024, 0);
+					con->setRequest(str2.data() + 1024);
+				}
+				else
+				{
+					send(i, str2.data(), str2.size(), 0);
+					FD_CLR(i, &_fdWrite);
+					close(i);
+					__connections.erase(i);
+				}
+			}
 		}
 	}
 	return;
-/*
-//	cout << "server\n";
-//	fcntl(_socketFd, F_SETFL, O_NONBLOCK);
-	int epWait = epoll_wait(_epfd, events, MAX_EVENTS, -1);
-	if(epWait < 0)
-	{
-		perror("epWait");
-		exit(EXIT_FAILURE);
-	}
-	for (int n = 0; n < epWait; n++)
-	{
-		if(events[n].data.fd == _socketFd)
-		{
-			socklen_t size = sizeof(servAddr);
-			int conFd = accept(events[n].data.fd, (struct sockaddr*)&servAddr, &size);
-			if(conFd < 0)
-			{
-				perror("conFd");
-				exit(1);
-			}
-			ev.events = EPOLLIN;
-			ev.data.fd = conFd;
-			char buf[10000];
-			int red = read(conFd, buf, 10000);
-			string s = buf;
-			cout << s;
-			if (epoll_ctl(_epfd, EPOLL_CTL_ADD, conFd, &ev) == -1)
-			{
-				perror("epoll_ctl: conn_sock");
-				exit(EXIT_FAILURE);
-			}
-			fcntl(conFd, F_SETFL, O_NONBLOCK);
-			_connections.push_back(conFd);
-		}
-		else if(events[n].events == EPOLLIN && Contains(events[n].data.fd))
-		{
-//			int confd = events[n].data.fd;
-//			cout << "IN\n" << events[n].data.fd;
-			events[n].events = EPOLLOUT;
-//			ev.data.fd = events[n].data.fd;
-
-//			epoll_ctl(_epfd, EPOLL_CTL_DEL, events[n].data.fd, &events[n]);
-//			ev.events = EPOLLOUT;
-//			ev.data.fd = confd;
-//			epoll_ctl(_epfd, EPOLL_CTL_ADD, confd, &ev);
-			if (epoll_ctl(_epfd, EPOLL_CTL_MOD, events[n].data.fd, &events[n]) == -1)
-			{
-				perror("epoll_ctl: conn_sock");
-				exit(EXIT_FAILURE);
-			}
-		}
-		else if(events[n].events == EPOLLOUT && Contains(events[n].data.fd))
-		{
-//			cout << "OUT\n" << events[n].data.fd;
-			string str2 = "<HTTP/1.1 200 OK \r\n\r\n"
-						  "<!doctype html>"
-						  "<html lang=\"en\">"
-						  "<head>"
-						  "<meta charset=\\\"UTF-8\\\"><title>Socket on port "+IntToStr(_port)+"</title>"
-						  "<head>"
-						  "<body>"
-						  "Response:<strong> Tell you from "+IntToStr(_port)+ "</strong>"
-						  "</body>\n"
-						  "</html>\n";
-			send(events[n].data.fd, str2.data(), str2.size(), 0);
-//			write(events[n].data.fd, str2.data(), str2.size());
-			close(events[n].data.fd);
-			deleteFromYebannyiVector(events[n].data.fd);
-		}
-	}*/
 }

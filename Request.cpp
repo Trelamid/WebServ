@@ -23,7 +23,14 @@ void Request::setRequest(const std::string request)	{__request = __request + req
 
 std::string Request::getResponse()	{return __response;}
 
+std::string Request::getRequest() {return __request;}
+
 void Request::setResponse(const std::string response)	{__response = response;}
+
+std::string Request::PreParsing(const std::string preRequest)
+{
+	return "OK";
+}
 
 void Request::Parse(int port) //port временно
 {

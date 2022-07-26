@@ -33,23 +33,15 @@ using namespace std;
 
 class TCPlistener {
 private:
-	int					_port;
-	int					_socketFd;
-//	int					_epfd;
-//	fd_set				_fdMaster;
-	fd_set				*__fdRead;
-	fd_set				*__fdWrite;
-	int					_numSelect;
-	struct sockaddr_in	servAddr;
-	struct epoll_event ev, events[MAX_EVENTS];
-	vector<Request>		_connections;
-	Request *Contains(int confd);
-	void deleteFromYebannyiVector(int confd);
+	int						__port;
+	int						__socketFd;
+	struct sockaddr_in		__servAddr;
+	map<int, Request>		__connections;
 public:
-	TCPlistener(int port, fd_set *fdRead, fd_set *fdWrite);
+	TCPlistener(int port);
 	TCPlistener();
 	~TCPlistener();
-	void Init(int port, fd_set *fdRead, fd_set *fdWrite);
+	void Init(int port);
 	int Socket(fd_set &fdRead);
 	void Listen(fd_set &_fdRead, fd_set &_fdWrite,fd_set &fdRead, fd_set &fdWrite, int &num);
 };

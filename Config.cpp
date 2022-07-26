@@ -18,9 +18,9 @@ Config::~Config()
 void Config::Parse(const std::string &s)
 {
 	_ports[0] = 4242;
-	_ports[1] = 8080;
-	_ports[2] = 2121;
-	_size = 3;
+//	_ports[1] = 8080;
+//	_ports[2] = 2121;
+	_size = 1;
 }
 
 int Config::GetPorts(int port)

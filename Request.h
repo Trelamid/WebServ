@@ -36,8 +36,10 @@ public:
 	~Request();
 	int getFd();
 	void setRequest(const std::string request);
-	std::string getResponse();
 	void setResponse(const std::string response);
+	std::string getResponse();
+	std::string getRequest();
+	std::string PreParsing(const std::string preRequest);
 	void Parse(int port);
 };
 

@@ -50,8 +50,9 @@ bool Request::PreParsing(const std::string &preRequest) //обсудим
     return true;
 }
 
-void Request::Parse(Config &config)
+void Request::Parse(Config &config, char **Envp)
 {
+	request_class.setEnvp(Envp);
     bool check;
     std::string code_error;
     std::string	status = "-1";
@@ -80,8 +81,8 @@ void Request::write_response()
 {
     int	    bytes_read;
     char    buf[SIZE_BUFFER];
-//    if (request_class.cgi_ptr != NULL && !request_class.cgi_ptr->is_finished(clients[i]))
-//        return ;
+    if (request_class.cgi_ptr != NULL && !request_class.cgi_ptr->is_finished(clients[i])) //auf
+        return ;
     if (file.is_open())
 	{
 		while (!(file.eof()))

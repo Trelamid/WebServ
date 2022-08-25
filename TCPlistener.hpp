@@ -40,7 +40,7 @@ public:
 	~TCPlistener();
 	void Init(int port, std::string &ip);
 	int Socket();
-	void Listen(fd_set &_fdRead, fd_set &_fdWrite,fd_set &fdRead, fd_set &fdWrite, std::pair<int *, Config> pair);
+	void Listen(fd_set &_fdRead, fd_set &_fdWrite,fd_set &fdRead, fd_set &fdWrite, std::pair<int *, Config> pair, char **Envp);
 };
 
 

@@ -354,12 +354,12 @@ void Response::check_index(RequestParser &request)
             {
                 if (permission(path, "r"))
                 {
-//                    if (!(location.getCgiPath().empty()))
-//                    {
-//                        request.cgi_ptr = new CGI();
-//                        request.cgi_ptr->cgi(request, location.getCgiPath().c_str(), path.c_str());
-//                        throw "Find cgi";
-//                    }
+                    if (!(location.getCgiPath().empty()))
+                    {
+                        request.cgi_ptr = new CGI();
+                        request.cgi_ptr->cgi(request, location.getCgiPath().c_str(), path.c_str());
+                        throw "Find cgi";
+                    }
                     status_code = "200";
                     set_content_type(path);
                     body_path = path;
@@ -452,12 +452,12 @@ void Response::method_get(RequestParser &request)
             buildResponse(request, 403);
             throw "Resource have no permissions";
         }
-//        if(!location.getCgiPath().empty())
-//        {
-//            request.cgi_ptr = new CGI();
-//            request.cgi_ptr->cgi(request, getCgiPath().c_str(), full_path.c_str());
-//            throw "Calling cgi";
-//        }
+        if(!location.getCgiPath().empty())
+        {
+            request.cgi_ptr = new CGI();
+            request.cgi_ptr->cgi(request, location.getCgiPath().c_str(), full_path.c_str());
+            throw "Calling cgi";
+        }
         status_code = "200";
         body_path = full_path;
         set_content_type(full_path);
@@ -467,53 +467,53 @@ void Response::method_get(RequestParser &request)
 
 void Response::check_cgi(std::string &path, RequestParser &request)
 {
-//    std::string full_path = path;
-//    struct stat buf;
-//    if (stat(full_path.c_str(), &buf) == 0)
-//    {
-//        if (buf.st_mode &S_IFDIR)
-//        {
-//            if (location.getIndex().size() > 0)
-//            {
-//                std::vector <std::string> index_list = location.getIndex();
-//                for (size_t i = 0; i < index_list.size(); i++)
-//                {
-//                    std::string pat;
-//                    struct stat buf;
-//
-//                    pat = request.get_url().replace(0, location.getLocation_match().length(),
-//                                                    location.getRoot() + "/") + index_list[i];
-//                    if (stat(pat.c_str(), &buf) == 0)
-//                    {
-//                        if (buf.st_mode &S_IFREG)
-//                        {
-//                            if (!location.getCgiPath().empty())
-//                                full_path = pat;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        else
-//        {
-//            struct stat buf;
-//            std::string default_path = request.get_url().replace(0, location.getLocation_match().length(),
-//                                                                 location.getRoot() + "/") + "index.html";
-//            if (stat(default_path.c_str(), &buf) == 0)
-//                full_path = default_path;
-//        }
-//    }
-//    request.cgi_ptr = new CGI();
-//    request.cgi_ptr->cgi(request, location.getCgiPath.c_str(), full_path.c_str());
-//    throw "Calling cgi";
+    std::string full_path = path;
+    struct stat buf;
+    if (stat(full_path.c_str(), &buf) == 0)
+    {
+        if (buf.st_mode &S_IFDIR)
+        {
+            if (location.getIndex().size() > 0)
+            {
+                std::vector <std::string> index_list = location.getIndex();
+                for (size_t i = 0; i < index_list.size(); i++)
+                {
+                    std::string pat;
+                    struct stat buf;
+
+                    pat = request.get_url().replace(0, location.getLocation_match().length(),
+                                                    location.getRoot() + "/") + index_list[i];
+                    if (stat(pat.c_str(), &buf) == 0)
+                    {
+                        if (buf.st_mode &S_IFREG)
+                        {
+                            if (!location.getCgiPath().empty())
+                                full_path = pat;
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            struct stat buf;
+            std::string default_path = request.get_url().replace(0, location.getLocation_match().length(),
+                                                                 location.getRoot() + "/") + "index.html";
+            if (stat(default_path.c_str(), &buf) == 0)
+                full_path = default_path;
+        }
+    }
+    request.cgi_ptr = new CGI();
+    request.cgi_ptr->cgi(request, location.getCgiPath.c_str(), full_path.c_str());
+    throw "Calling cgi";
 }
 
 void Response::method_post(RequestParser &request)
 {
     std::string root = location.getRoot() + "/";
     std::string full_path = request.get_url().replace(0, location.getLocation_match().length(), root);
-//    if (!location.getCgiPath().empty())
-//        check_cgi(full_path, request);
+    if (!location.getCgiPath().empty())
+        check_cgi(full_path, request);
     if (!location.getUploadPath().empty()) //else if
     {
         int end = request.get_url().length() - 1;
@@ -674,12 +674,12 @@ void Response::method_delete(RequestParser &request)
         }
         end_slash_delete(request);
         search_for_location(request);
-//        if(!location.getCgiPath().empty())
-//        {
-//            check_cgi(full_path, request);
-//        }
-//        else
-//		{
+        if(!location.getCgiPath().empty())
+        {
+            check_cgi(full_path, request);
+        }
+        else
+		{
             if (!(remove_dir(full_path)))
             {
                 status_code = "204";
@@ -701,18 +701,18 @@ void Response::method_delete(RequestParser &request)
                     throw "Internal server error remove failed";
                 }
             }
-//        }
+        }
     }
     else if (file_stat.st_mode &S_IFREG)
     {
-//        if(!location.getCgiPath().empty())
-//        {
-//            request.cgi_ptr = new CGI();
-//            request.cgi_ptr->cgi(request, getCgiPath().c_str(), full_path.c_str());
-//            throw "Calling cgi";
-//        }
-//        else
-//        {
+        if(!location.getCgiPath().empty())
+        {
+            request.cgi_ptr = new CGI();
+            request.cgi_ptr->cgi(request, location.getCgiPath().c_str(), full_path.c_str());
+            throw "Calling cgi";
+        }
+        else
+        {
             if (!(remove(full_path.c_str())))
             {
                 status_code = "204";
@@ -725,7 +725,7 @@ void Response::method_delete(RequestParser &request)
                 buildResponse(request, 500);
                 throw "Internal server error remove failed";
             }
-//        }
+        }
     }
 }
 

@@ -41,11 +41,11 @@ int  TCPlistener::Socket()
 	return __socketFd;
 }
 
-void TCPlistener::Listen(fd_set &_fdRead, fd_set &_fdWrite,fd_set &fdRead, fd_set &fdWrite, std::pair<int *, Config> pair)
+void TCPlistener::Listen(fd_set &_fdRead, fd_set &_fdWrite,fd_set &fdRead, fd_set &fdWrite, std::pair<int *, Config> pair, char **Envp)
 {
 	for (int i = 0; i <= *(pair.first); i++)
 	{
-		Request *con;
+		RequestRequest *con;
 		if (FD_ISSET(i, &fdRead) > 0)
 		{
 			if (i == __socketFd)
@@ -106,7 +106,7 @@ void TCPlistener::Listen(fd_set &_fdRead, fd_set &_fdWrite,fd_set &fdRead, fd_se
 			con = &(__connections.find(i)->second);
 			if (con->getResponse() == "")
 			{
-				con->Parse(pair.second);
+				con->Parse(pair.second, Envp);
 			}
 			else
 			{

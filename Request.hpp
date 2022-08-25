@@ -56,7 +56,7 @@ class Request
 		std::string getResponse() const;
 		std::string getRequest() const;
 		bool PreParsing(const std::string &preRequest);
-		void Parse(Config &config);
+		void Parse(Config &config, char **Envp);
         void write_response();
 };
 

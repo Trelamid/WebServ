@@ -51,7 +51,7 @@ using namespace std;
 //	}
 //}
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **ev)
 {
 
 	fd_set fdRead;
@@ -96,7 +96,7 @@ int main(int argc, char **argv)
 		if (select(_numSelect, &FdRead, &FdWrite, NULL, NULL) < 0)
 			continue;
 		for (unsigned long i = 0; i < config.getBinders().size(); i++)
-			listeners[i].Listen(fdRead, fdWrite, FdRead, FdWrite, std::make_pair(&_numSelect, config)); // передаю pair из-за ограничения по кол-ву передаваемых в функцию аргументов
+			listeners[i].Listen(fdRead, fdWrite, FdRead, FdWrite, std::make_pair(&_numSelect, config), ev); // передаю pair из-за ограничения по кол-ву передаваемых в функцию аргументов
 	}
 }
 

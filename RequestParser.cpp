@@ -205,3 +205,13 @@ void RequestParser::clear()
     remove(filepath.c_str());
 	filepath = "";
 }
+
+void RequestParser::setEnvp(char **Envp)
+{
+	envp = Envp;
+}
+
+char **RequestParser::getEnvp() {
+	return envp;
+}
+

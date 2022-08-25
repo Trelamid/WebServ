@@ -10,6 +10,7 @@
 #include "Config.hpp"
 #include "Server.hpp"
 #include "Location.hpp"
+#include "CGI.h"
 
 class RequestParser
 {
@@ -29,9 +30,12 @@ class RequestParser
             Location                            location;
             std::string							filepath;
             bool 								parsed;
+			char								**envp;
         public:
-//            CGI		*cgi_ptr;
+            CGI		*cgi_ptr;
             RequestParser();
+			void setEnvp(char **Envp);
+			char **getEnvp();
             ~RequestParser();
 
             std::map<std::string, std::string> get_headerMap() const { return headerMap; }

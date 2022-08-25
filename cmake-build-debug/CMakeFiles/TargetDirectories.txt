@@ -1,0 +1,3 @@
+C:/Users/Prime_Games_2/Desktop/webserv/cmake-build-debug/CMakeFiles/new_webserv.dir
+C:/Users/Prime_Games_2/Desktop/webserv/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Prime_Games_2/Desktop/webserv/cmake-build-debug/CMakeFiles/rebuild_cache.dir

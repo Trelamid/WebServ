@@ -1,47 +1,104 @@
-//
-// Created by Prime_Games_2 on 24.07.2022.
-//
 
-#include "Request.h"
+#include "Request.hpp"
 
-std::string IntToStr(int x) {
-	std::stringstream ss;
-	ss << x;
-	return ss.str();
+Request::Request(int fd)
+{
+    __fd = fd;
+    __request = "";
+    __response = "";
 }
 
+Request::Request()
+{
+    __fd = 0;
+    __request = "";
+    __response = "";
+}
 
-Request::Request(int fd)	{__fd = fd; __request = "";	__response = "";}
+Request::Request(const Request &x) {*this = x;}
 
-Request::Request()	{__fd = 0; __request = ""; __response = "";}
+Request &Request::operator=(const Request &x)
+{
+    if (this != &x)
+    {
+        __fd = x.__fd;
+        __request = x.__request;
+        __response = x.__response;
+    }
+    return (*this);
+}
 
 Request::~Request(){}
 
-int Request::getFd()	{return __fd;}
+int Request::getFd() const {return __fd;}
 
-void Request::setRequest(const std::string request)	{__request = __request + request;}
+void Request::setRequest(const std::string &request)	{__request = __request + request;}
 
-std::string Request::getResponse()	{return __response;}
+std::string Request::getResponse()	const {return __response;}
 
-std::string Request::getRequest() {return __request;}
-
-void Request::setResponse(const std::string response)	{__response = response;}
-
-std::string Request::PreParsing(const std::string preRequest)
+std::string Request::getRequest() const
 {
-	return "OK";
+    return __request;
 }
 
-void Request::Parse(int port) //port временно
+void Request::setResponse(const std::string &response)	{__response = response;}
+
+bool Request::PreParsing(const std::string &preRequest) //обсудим
 {
-	__response = "<HTTP/1.1 200 OK \r\n\r\n"
-				 "<!doctype html>"
-				 "<html lang=\"en\">"
-				 "<head>"
-				 "<meta charset=\\\"UTF-8\\\"><title>Socket on port "+IntToStr(port)+"</title>"
-																					  "<head>"
-																					  "<body>"
-																					  "Response:<strong> Tell you from "+IntToStr(port)+ "</strong>"
-																																		  "</body>\n"
-																																		  "</html>\n";
+	if (preRequest.empty())
+		return false;
+    return true;
+}
+
+void Request::Parse(Config &config)
+{
+    bool check;
+    std::string code_error;
+    std::string	status = "-1";
+    try
+    {
+        check = request_class.parse_chunks(__request, config);
+    }
+    catch (const char *code)
+    {
+		status = std::string(code);
+		remove(request_class.get_filepath().c_str());
+        check = true;
+    }
+    if (check)
+    {
+        location = request_class.getLocation();
+        buffer = response_class.getHeaders(request_class, location, status);
+        body_inf = response_class.getBody();
+        if (body_inf.first.size() > 0)
+            file.open(body_inf.first);
+        write_response();
+    }
+}
+
+void Request::write_response()
+{
+    int	    bytes_read;
+    char    buf[SIZE_BUFFER];
+//    if (request_class.cgi_ptr != NULL && !request_class.cgi_ptr->is_finished(clients[i]))
+//        return ;
+    if (file.is_open())
+	{
+		while (!(file.eof()))
+		{
+			file.read(buf, SIZE_BUFFER);
+			bytes_read = file.gcount();
+			buffer += std::string(buf, bytes_read);
+		}
+	}
+	__response = buffer;
+	file.close();
+	if (body_inf.second)
+	{
+		if (remove(body_inf.first.c_str()))
+			perror("remove() failed: ");
+	}
+	__request.clear();
+	buffer.clear();
+	request_class.clear();
 }

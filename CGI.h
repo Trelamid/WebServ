@@ -43,6 +43,7 @@ public:
 	void cgi(RequestParser request, std::string  cgiPath, std::string  fullpath);
 	void craft_response(Request &client);
 	bool is_finished(Request &client);
+	std::string getDateHeader();
 
 };
 

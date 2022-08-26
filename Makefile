@@ -2,11 +2,12 @@ NAME	= 	webserv
 
 CC		=	c++
 
-FLAGS	=	-Wall -Werror -Wextra -std=c++98
+#FLAGS	=	-Wall -Werror -Wextra -std=c++98
+FLAGS	=
 
-SRC		=	main.cpp TCPlistener.cpp Config.cpp Location.cpp Server.cpp Request.cpp RequestParser.cpp Response.cpp
+SRC		=	RequestParser.cpp CGI.cpp main.cpp TCPlistener.cpp Config.cpp Location.cpp Server.cpp  Request.cpp Response.cpp
 
-HDR		=	TCPlistener.hpp Config.hpp Location.hpp Server.hpp Request.hpp RequestParser.hpp Response.hpp
+HDR		=	CGI.hpp TCPlistener.hpp Config.hpp Location.hpp Server.hpp Request.hpp RequestParser.hpp Response.hpp
 
 OBJS	=	$(SRC:.cpp=.o)
 

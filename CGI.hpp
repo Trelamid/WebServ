@@ -1,9 +1,6 @@
-//
-// Created by Prime_Games_2 on 25.08.2022.
-//
 
-#ifndef NEW_WEBSERV_CGI_H
-#define NEW_WEBSERV_CGI_H
+#ifndef CGI_HPP
+# define CGI_HPP
 
 #include <iostream>
 #include <fstream>
@@ -13,12 +10,11 @@
 #include <dirent.h>
 #include <map>
 #include "RequestParser.hpp"
-#include "Request.hpp"
-#include "Config.hpp"
-#include "Server.hpp"
-#include "Location.hpp"
-#include <vector>
-#include <iterator>
+//#include "Config.hpp"
+//#include "Server.hpp"
+//#include "Location.hpp"
+//#include <vector>
+//#include <iterator>
 #include <ctime>
 #include <fcntl.h>
 #include <cstdio>
@@ -26,26 +22,31 @@
 #include <dirent.h>
 #include <unistd.h>
 
+
+#pragma once
 class RequestParser;
-class Location;
+//class Location;
+
 class Request;
 
-class CGI {
-private:
-//	std::map<std::string, std::string>	_env;
-	FILE								*file;
+class CGI
+{
 //	int									_pid;
 //	std::string							_status;
 //	bool								finished;
+	std::string getDateHeader();
+private:
+//	std::map<std::string, std::string>	_env;
+	FILE								*file;
 public:
 	CGI();
 	~CGI();
-	void cgi(RequestParser request, std::string  cgiPath, std::string  fullpath);
+	void cgi(RequestParser request, std::string cgiPath, std::string fullpath);
 	void craft_response(Request &client);
 	bool is_finished(Request &client);
-	std::string getDateHeader();
-
 };
 
 
-#endif //NEW_WEBSERV_CGI_H
+#endif
+
+

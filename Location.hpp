@@ -10,7 +10,8 @@
 #include <fstream>
 #include "Server.hpp"
 
-class Server;
+//class Server;
+
 
 class Location : public Server
 {
@@ -29,5 +30,7 @@ class Location : public Server
             void setLocation_match(std::string c);
             void checkMissingFields() const;
 };
+
+//#include "CGI.h"
 
 #endif 

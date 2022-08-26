@@ -10,7 +10,11 @@
 #include "Config.hpp"
 #include "Server.hpp"
 #include "Location.hpp"
-#include "CGI.h"
+#include "CGI.hpp"
+#pragma once
+class CGI;
+class Config;
+//class Server;
 
 class RequestParser
 {
@@ -31,6 +35,7 @@ class RequestParser
             std::string							filepath;
             bool 								parsed;
 			char								**envp;
+
         public:
             CGI		*cgi_ptr;
             RequestParser();

@@ -1,5 +1,5 @@
-#ifndef SERVERSCRIPTS_REQUEST_HPP
-#define SERVERSCRIPTS_REQUEST_HPP
+#ifndef REQUEST_HPP
+# define REQUEST_HPP
 
 #define SIZE_BUFFER	16384
 
@@ -21,22 +21,28 @@
 #include <map>
 #include <vector>
 #include <sys/select.h>
-#include "Response.hpp"
 #include "RequestParser.hpp"
+#include "Response.hpp"
 #include "Config.hpp"
 #include "Server.hpp"
 #include "Location.hpp"
+#include "CGI.hpp"
 
 class Config;
+#pragma once
+class RequestParser;
+//class CGI;
+//class Response;
 
 class Request
 {
-	private:
+
+private:
 		std::string __request;
 		std::string __response;
 		int			__fd;
-	    Response        response_class;
 		RequestParser   request_class;
+		Response        response_class;
         Location        location;
 
         std::pair<std::string, bool>		body_inf;

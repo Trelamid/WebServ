@@ -81,7 +81,7 @@ void Request::write_response()
 {
     int	    bytes_read;
     char    buf[SIZE_BUFFER];
-    if (request_class.cgi_ptr != NULL && !request_class.cgi_ptr->is_finished(clients[i])) //auf
+    if (request_class.cgi_ptr != NULL && !request_class.cgi_ptr->is_finished(*this)) //auf
         return ;
     if (file.is_open())
 	{

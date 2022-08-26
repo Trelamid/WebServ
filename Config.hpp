@@ -9,8 +9,8 @@
 #include <exception>
 #include <fstream>
 #include "Server.hpp"
-
 class Server;
+
 
 class Config
 {
@@ -22,7 +22,7 @@ class Config
         std::vector<std::string> lines;
         std::vector<Server> servers;
         std::map<int, std::string> _binders;
-       
+
 
     public :
         static std::map<std::string, std::string>	statusCodeMessages;
@@ -87,5 +87,7 @@ class Config
     void init_statusCodeMessages();
     void init_mimetype();
 };
+
+//#include "CGI.h"
 
 #endif

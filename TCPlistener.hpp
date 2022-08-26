@@ -1,5 +1,11 @@
 
+
+
+#ifndef TCPLISTENER_H
+#define TCPLISTENER_H
+
 #include "Request.hpp"
+#include "RequestParser.hpp"
 #include <iostream>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -19,10 +25,9 @@
 #include <vector>
 #include <sys/select.h>
 
-#ifndef SERVERSCRIPTS_TCPLISTENER_H
-#define SERVERSCRIPTS_TCPLISTENER_H
 
 class Request;
+class RequestParser;
 
 using namespace std;
 

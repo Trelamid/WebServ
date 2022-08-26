@@ -504,7 +504,7 @@ void Response::check_cgi(std::string &path, RequestParser &request)
         }
     }
     request.cgi_ptr = new CGI();
-    request.cgi_ptr->cgi(request, location.getCgiPath.c_str(), full_path.c_str());
+//    request.cgi_ptr->cgi(request, location.getCgiPath.c_str(), full_path.c_str());
     throw "Calling cgi";
 }
 

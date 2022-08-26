@@ -45,7 +45,7 @@ void TCPlistener::Listen(fd_set &_fdRead, fd_set &_fdWrite,fd_set &fdRead, fd_se
 {
 	for (int i = 0; i <= *(pair.first); i++)
 	{
-		RequestRequest *con;
+		Request *con;
 		if (FD_ISSET(i, &fdRead) > 0)
 		{
 			if (i == __socketFd)

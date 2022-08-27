@@ -122,6 +122,8 @@ void TCPlistener::Listen(fd_set &_fdRead, fd_set &_fdWrite,fd_set &fdRead, fd_se
 					FD_CLR(i, &_fdWrite);
 					close(i);
 					__connections.erase(i);
+//                    if(con)
+//                        delete con;
 				}
 			}
 		}

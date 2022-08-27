@@ -4,7 +4,9 @@
 
  Location::Location() {}
 
- Location::~Location() {}
+ Location::~Location() {
+//     std::cout << "deleteLocation\n";
+ }
 
  Location::Location(Location const& c) {*this = c;}
         

@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD 98)
 include_directories(.)
 
 add_executable(new_webserv
+        CGI.cpp
+        CGI.hpp
         Config.cpp
         Config.hpp
         Location.cpp

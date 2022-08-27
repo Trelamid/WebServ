@@ -15,9 +15,13 @@ RequestParser::RequestParser()
 	body = "";
 	filepath = "";
 	parsed = false;
+    cgi_ptr = nullptr;
 }
 
-RequestParser::~RequestParser() {}
+RequestParser::~RequestParser() {
+//    std::cout << "deleteReqPar\n";
+//    delete cgi_ptr;
+}
 
 void RequestParser::check_fl_data()
 {

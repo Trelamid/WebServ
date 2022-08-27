@@ -9,7 +9,10 @@ Response::Response()
     response_tmp = false;
 }
 
-Response::~Response() {}
+Response::~Response() {
+//    std::cout << "deleteResponse\n";
+
+}
 
 void Response::setHeaders(std::string key, std::string value)
 {
@@ -356,6 +359,7 @@ void Response::check_index(RequestParser &request)
                 {
                     if (!(location.getCgiPath().empty()))
                     {
+//                        std::cout << "1 - const CGI\n";
                         request.cgi_ptr = new CGI();
                         request.cgi_ptr->cgi(request, location.getCgiPath().c_str(), path.c_str());
                         throw "Find cgi";
@@ -455,6 +459,7 @@ void Response::method_get(RequestParser &request)
         if(!location.getCgiPath().empty())
         {
             request.cgi_ptr = new CGI();
+//            std::cout << "2 - const CGI\n";
             request.cgi_ptr->cgi(request, location.getCgiPath().c_str(), full_path.c_str());
             throw "Calling cgi";
         }
@@ -504,7 +509,8 @@ void Response::check_cgi(std::string &path, RequestParser &request)
         }
     }
     request.cgi_ptr = new CGI();
-//    request.cgi_ptr->cgi(request, location.getCgiPath.c_str(), full_path.c_str());
+//    std::cout << "3 - const CGI\n";
+    request.cgi_ptr->cgi(request, location.getCgiPath().c_str(), full_path.c_str()); //auf
     throw "Calling cgi";
 }
 
@@ -707,6 +713,7 @@ void Response::method_delete(RequestParser &request)
     {
         if(!location.getCgiPath().empty())
         {
+//            std::cout << "3 - const CGI\n";
             request.cgi_ptr = new CGI();
             request.cgi_ptr->cgi(request, location.getCgiPath().c_str(), full_path.c_str());
             throw "Calling cgi";

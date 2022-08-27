@@ -73,6 +73,7 @@ void Request::Parse(Config &config, char **Envp)
         body_inf = response_class.getBody();
         if (body_inf.first.size() > 0)
             file.open(body_inf.first);
+//        std::cout << "D1";
         write_response();
     }
 }
@@ -81,8 +82,18 @@ void Request::write_response()
 {
     int	    bytes_read;
     char    buf[SIZE_BUFFER];
-    if (request_class.cgi_ptr != NULL && !request_class.cgi_ptr->is_finished(*this)) //auf
-        return ;
+//    std::cout << "C0";
+    if (request_class.cgi_ptr != nullptr)
+    {
+//        std::cout << "C1";
+        if(!request_class.cgi_ptr->is_finished(*this))
+        {
+//            std::cout << "C2";
+            delete request_class.cgi_ptr;
+            request_class.cgi_ptr = nullptr;
+            return;
+        }
+    }
     if (file.is_open())
 	{
 		while (!(file.eof()))

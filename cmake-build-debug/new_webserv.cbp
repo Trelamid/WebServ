@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="new_webserv"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/kdakota/check/webserv/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/kdakota/check/webserv/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/kdakota/check/webserv/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="new_webserv">
+				<Option output="/Users/kdakota/check/webserv/cmake-build-debug/new_webserv" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/kdakota/check/webserv/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/kdakota/check/webserv/."/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/13.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 new_webserv"/>
+					<CompileFile command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="new_webserv/fast">
+				<Option output="/Users/kdakota/check/webserv/cmake-build-debug/new_webserv" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/kdakota/check/webserv/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Users/kdakota/check/webserv/."/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/13.0.0/include"/>
+					<Add directory="/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 new_webserv/fast"/>
+					<CompileFile command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j6 -f &quot;/Users/kdakota/check/webserv/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/kdakota/check/webserv/CGI.cpp">
+			<Option target="new_webserv"/>
+		</Unit>
+		<Unit filename="/Users/kdakota/check/webserv/CGI.hpp">
+			<Option target="new_webserv"/>
+		</Unit>
+		<Unit filename="/Users/kdakota/check/webserv/Config.cpp">
+			<Option target="new_webserv"/>
+		</Unit>
+		<Unit filename="/Users/kdakota/check/webserv/Config.hpp">
+			<Option target="new_webserv"/>
+		</Unit>
+		<Unit filename="/Users/kdakota/check/webserv/Location.cpp">
+			<Option target="new_webserv"/>
+		</Unit>
+		<Unit filename="/Users/kdakota/check/webserv/Location.hpp">
+			<Option target="new_webserv"/>
+		</Unit>
+		<Unit filename="/Users/kdakota/check/webserv/Request.cpp">
+			<Option target="new_webserv"/>
+		</Unit>
+		<Unit filename="/Users/kdakota/check/webserv/Request.hpp">
+			<Option target="new_webserv"/>
+		</Unit>
+		<Unit filename="/Users/kdakota/check/webserv/RequestParser.cpp">
+			<Option target="new_webserv"/>
+		</Unit>
+		<Unit filename="/Users/kdakota/check/webserv/RequestParser.hpp">
+			<Option target="new_webserv"/>
+		</Unit>
+		<Unit filename="/Users/kdakota/check/webserv/Response.cpp">
+			<Option target="new_webserv"/>
+		</Unit>
+		<Unit filename="/Users/kdakota/check/webserv/Response.hpp">
+			<Option target="new_webserv"/>
+		</Unit>
+		<Unit filename="/Users/kdakota/check/webserv/Server.cpp">
+			<Option target="new_webserv"/>
+		</Unit>
+		<Unit filename="/Users/kdakota/check/webserv/Server.hpp">
+			<Option target="new_webserv"/>
+		</Unit>
+		<Unit filename="/Users/kdakota/check/webserv/TCPlistener.cpp">
+			<Option target="new_webserv"/>
+		</Unit>
+		<Unit filename="/Users/kdakota/check/webserv/TCPlistener.hpp">
+			<Option target="new_webserv"/>
+		</Unit>
+		<Unit filename="/Users/kdakota/check/webserv/main.cpp">
+			<Option target="new_webserv"/>
+		</Unit>
+		<Unit filename="/Users/kdakota/check/webserv/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

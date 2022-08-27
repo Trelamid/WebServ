@@ -1,4 +1,4 @@
-NAME	= 	webserv
+ NAME	= 	webserv
 
 CC		=	c++
 
@@ -20,6 +20,7 @@ all:		$(NAME)
 $(NAME):	$(OBJS)
 				@$(CC) $(FLAGS) $(OBJS) -o $(NAME)
 				@echo "Compiled "$(NAME)" successfully!"
+				@make clean
 
 %.o:%.cpp $(HDR)
 				@$(CC) $(FLAGS) -c $< -o $@

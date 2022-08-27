@@ -37,13 +37,19 @@ class CGI
 	std::string getDateHeader();
 private:
 //	std::map<std::string, std::string>	_env;
-	FILE								*file;
+	char								fileName[20];
+	int						    		_fd;
+    int                                _cgi;
+    int                                 pip[2];
+    std::string                         _status;
 public:
 	CGI();
 	~CGI();
 	void cgi(RequestParser request, std::string cgiPath, std::string fullpath);
 	void craft_response(Request &client);
 	bool is_finished(Request &client);
+
+    void cgi_error(Request &client);
 };
 
 

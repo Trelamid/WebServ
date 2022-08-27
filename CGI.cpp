@@ -1,55 +1,95 @@
 
 #include "CGI.hpp"
 #include "Request.hpp"
+#include <stdlib.h>
 
 CGI::CGI()
 {
-
+//    fileName = "test_cgi";
+    _cgi = -1;
+    _fd = -1;
+    _status = "200";
+//    std::cout << "constr CGI\n";
 }
 
 CGI::~CGI()
 {
-	fclose(file);
+    char temp[] = "/tmp/testXXXXXX";
+//    unlink(temp);
+//    std::cout << "delete CGI\n";
+//	fclose(file);
 }
 
 void CGI::cgi(RequestParser request, std::string cgiPath, std::string script_path)
 {
-	char *args[3];
+//    std::cout << "B1\n";
+
+    char *args[3];
 	args[0] = (char *)cgiPath.data();
 	args[1] = (char *)script_path.data();
 	args[2] = NULL;
 
-	FILE *temp = tmpfile();
+//	FILE *temp = tmpfile();
+//    char temp[] = "/tmp/testXXXXXX";
+//    _fd = mkstemp(temp);
+//    _fd = open("FILE_CGI.txt", O_RDONLY | O_CREAT | O_TRUNC);
+//    int pip[2];
+//    if(!pipe(pip))
+//        exit(333);
+    pipe(pip);
 	pid_t pid;
-	pid = fork();
+	if((pid = fork()) == -1)
+        exit(22);
 	if(pid == 0)
 	{
-		dup2(temp->_file, 1);
-		execve(args[0], args, request.getEnvp());
+//        std::cout << "B2\n";
+        dup2(pip[1], 1);
+        close(pip[1]);
+        close(pip[0]);
+//        write()
+//        std::cout << args[0] << " ar 0 \n";
+		if (execve(args[0], args, request.getEnvp()) == -1)
+            exit(111);
 	}
 	else
 	{
-		char *s = NULL;
-		while(fread((void *)s, 1, 1, temp) == 0)
-		{
-//			std::cout << temp->_base;
-		}
-		file = temp;
+        _cgi = 1;
+        int res;
+        waitpid(pid, &res, 0); //check res on error return 500;
+        if(WIFEXITED(res) != 0)
+            _status = "500"; //return 500 error
+
 	}
+}
+
+void CGI::cgi_error(Request &client)
+{
+    std::string response = "<html><head><title> 500 </title></head><body><center><h1> 500 Internal Server Error:( </h1></center><hr><center>Webserv/1.1</center></body></html>";
+    client.setResponse(response);
 }
 
 void CGI::craft_response(Request &client)
 {
-	char *s = NULL;
-	fread((void *)s, 1, 1000, file);
+    if(_status == "500")
+    {
+        cgi_error();
+        return;
+    }
+
+    char s1[1000];
+    size_t readBytes = read(pip[0], s1, 1000);
+    close(pip[1]);
+    close(pip[0]);
 	std::string response (
-			"<HTTP/1.1 200 OK \r\n\r\n"
+			"HTTP/1.1 200 OK\r\n"
+//            "Content-Length: 50"
+            "\r\n\r\n"
 			"<html>"
 			"<head>"
 			"</head>"
 			"<body>");
-			response += s;
-			response +="</body></html>\r\n\r\n";
+			response += std::string(s1, readBytes);
+			response +="</body></html>";
 	client.setResponse(response);
 }
 
@@ -74,7 +114,16 @@ std::string CGI::getDateHeader()
 }
 
 bool CGI::is_finished(Request &client) {
-	craft_response(client);
-	return true;
-//	return false;
+    if(_cgi == 1)
+    {
+        craft_response(client);
+        _cgi = -1;
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+//    delete this;
+//	return true;
 }
